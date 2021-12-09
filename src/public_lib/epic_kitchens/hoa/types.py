@@ -7,7 +7,7 @@ from typing import Dict, Iterator, List, Tuple, cast
 import numpy as np
 from dataclasses import dataclass
 
-import epic_kitchens.hoa.types_pb2 as pb
+from . import types_pb2 as pb
 
 __all__ = [
     "HandSide",
@@ -296,10 +296,11 @@ class FrameDetections:
             [self.objects[object_id].bbox.center for object_id in object_idxs]
         )
         for hand_idx, hand_detection in enumerate(self.hands):
-            if (
-                hand_detection.state.value == HandState.NO_CONTACT.value
-                or hand_detection.score <= hand_threshold
-            ):
+            # if (
+            #     hand_detection.state.value == HandState.NO_CONTACT.value
+            #     or hand_detection.score <= hand_threshold
+            # ):
+            if (hand_detection.score <= hand_threshold):
                 continue
             estimated_object_position = (
                 np.array(hand_detection.bbox.center) +
